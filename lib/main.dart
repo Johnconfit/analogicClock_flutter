@@ -103,27 +103,33 @@ class _PaintAnalogicClockState extends State<PaintAnalogicClock> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        // pour bien formater la date on peut utiliser le package intl
-        Container(
-            padding: EdgeInsets.all(10.0),
-            child: Text(dateheure!.hour.toString() +
-                " : " +
-                dateheure!.minute.toString() +
-                " : " +
-                dateheure!.second.toString())),
+      children: dateheure != null
+          ? [
+              // pour bien formater la date on peut utiliser le package intl
+              Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    dateheure!.hour.toString() +
+                        " : " +
+                        dateheure!.minute.toString() +
+                        " : " +
+                        dateheure!.second.toString(),
+                    strutStyle: StrutStyle(fontSize: 14),
+                    style: TextStyle(color: Colors.white),
+                  )),
 
-        // l'horloge
-        Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(33, 33, 18, 1),
-                borderRadius: BorderRadius.circular(25.0)),
-            child: CustomPaint(
-              painter: PaintClock(dateheure: dateheure),
-            )),
-      ],
+              // l'horloge
+              Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(33, 33, 18, 1),
+                      borderRadius: BorderRadius.circular(25.0)),
+                  child: CustomPaint(
+                    painter: PaintClock(dateheure: dateheure),
+                  )),
+            ]
+          : [],
     );
   }
 }
@@ -146,6 +152,7 @@ class PaintClock extends CustomPainter {
 
     var centreX = size.width / 2;
     var centreY = size.height / 2;
+
     // le rayon, pour on prend le plus petit entre la longueur et la largeur du canvas / 2 , cequi donne le rayon car width = diametre, pour notre cas je divise par 3
     var radius1cercle = min(size.width, size.height) / 2.5;
     canvas.drawCircle(Offset(centreX, centreY), radius1cercle, paint1erCircle);
@@ -225,7 +232,7 @@ class PaintClock extends CustomPainter {
       ..strokeWidth = 10
       ..style = PaintingStyle.fill;
 
-    // le rayon, pour on prend le plus petit entre la longueur et la largeur du canvas / 2 , cequi donne le rayon car width = diametre, pour notre cas je divise par 3
+    // le rayon du petit cercle du milieu, pour on prend le plus petit entre la longueur et la largeur du canvas / 2 , cequi donne le rayon car width = diametre, pour notre cas je divise par 30
     var radiuspetitcercle = min(size.width, size.height) / 30;
     canvas.drawCircle(
         Offset(centreX, centreY), radiuspetitcercle, paintpetitCircle);
